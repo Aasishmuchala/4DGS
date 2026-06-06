@@ -1,0 +1,144 @@
+@import 'tailwindcss';
+
+/* ─────────────────────────────────────────────────────────────────────────
+   CHRONO design tokens — cinematic luxury: near-black stage, lavender accent,
+   glass surfaces, Manrope (display) + Inter (UI). Tailwind v4 reads @theme to
+   generate utilities (bg-ink-950, text-lav-300, font-display, …).
+   ──────────────────────────────────────────────────────────────────────── */
+@theme {
+  /* Ink — the dark stage */
+  --color-ink-950: #06060a;
+  --color-ink-900: #0b0b12;
+  --color-ink-850: #0f0f18;
+  --color-ink-800: #14141f;
+  --color-ink-100: #ecebf5;
+  --color-ink-200: #d3d2e2;
+  --color-ink-300: #b8b6c9;
+  --color-ink-400: #9a98ad;
+  --color-ink-500: #7c7a90;
+  --color-ink-600: #5b596d;
+
+  /* Lavender — the signature accent (#c6bfff per design direction) */
+  --color-lav-100: #efecff;
+  --color-lav-200: #d8d3ff;
+  --color-lav-300: #c6bfff;
+  --color-lav-400: #a89fff;
+  --color-lav-500: #8b7dff;
+  --color-lav-600: #6f5fe6;
+
+  /* Secondary spectral accents for the splat palettes */
+  --color-aqua-300: #6fe0ff;
+  --color-rose-300: #ff8fd1;
+  --color-amber-300: #ffce7a;
+
+  --font-display: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --radius-xl2: 1.25rem;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-ink-950);
+    color: var(--color-ink-100);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overscroll-behavior: none;
+  }
+
+  /* The 3D canvas must own touch gestures (orbit/pan), not the browser */
+  canvas {
+    touch-action: none;
+    display: block;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-lav-300) 35%, transparent);
+    color: #fff;
+  }
+
+  /* Slim, on-brand scrollbars for panels */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(198, 191, 255, 0.25) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: rgba(198, 191, 255, 0.22);
+    border-radius: 999px;
+  }
+}
+
+@layer components {
+  /* Frosted-glass surface — the core UI material */
+  .glass {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.018)
+    );
+    border: 1px solid rgba(198, 191, 255, 0.12);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    box-shadow:
+      0 10px 40px -12px rgba(0, 0, 0, 0.65),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+
+  .glass-deep {
+    background: linear-gradient(
+      180deg,
+      rgba(20, 20, 31, 0.72),
+      rgba(11, 11, 18, 0.72)
+    );
+    border: 1px solid rgba(198, 191, 255, 0.1);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    box-shadow: 0 20px 60px -20px rgba(0, 0, 0, 0.8);
+  }
+
+  /* The cinematic backdrop behind the (transparent) canvas */
+  .stage-gradient {
+    background:
+      radial-gradient(
+        125% 90% at 50% 14%,
+        rgba(139, 125, 255, 0.12),
+        transparent 58%
+      ),
+      radial-gradient(
+        90% 75% at 50% 118%,
+        rgba(111, 224, 255, 0.07),
+        transparent 60%
+      ),
+      var(--color-ink-950);
+  }
+
+  /* A soft vignette to focus the eye on the splat */
+  .vignette {
+    background: radial-gradient(
+      125% 105% at 50% 46%,
+      transparent 52%,
+      rgba(0, 0, 0, 0.44) 100%
+    );
+  }
+}
+
+@layer utilities {
+  .tracking-mega {
+    letter-spacing: 0.42em;
+  }
+  .text-glow-lav {
+    text-shadow: 0 0 18px rgba(198, 191, 255, 0.45);
+  }
+}
