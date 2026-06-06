@@ -6,6 +6,7 @@ import { ActionBar } from './ActionBar'
 import { DirectorToggle } from './DirectorToggle'
 import { DirectorTrack } from './DirectorTrack'
 import { FreezeBadge } from './FreezeBadge'
+import ImportModal from './ImportModal'
 
 /**
  * Heads-up display overlay. Everything is pointer-events-none by default so
@@ -44,6 +45,7 @@ export function Hud() {
 
         <div className="flex items-center gap-2">
           <DirectorToggle />
+          <ImportModal />
           <ActionBar />
           <div className="glass pointer-events-auto flex items-center gap-2 rounded-full px-3.5 py-2 text-[11px] font-medium tracking-wide text-ink-300">
             <span
