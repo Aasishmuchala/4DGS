@@ -11,7 +11,12 @@ from typing import List, Optional
 from fastapi import FastAPI, UploadFile, File, HTTPException, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
-import torch
+
+try:
+    import torch
+    HAS_TORCH = True
+except ImportError:
+    HAS_TORCH = False
 
 app = FastAPI(title="4DGS Reconstruction API")
 
@@ -43,8 +48,8 @@ async def root():
 async def health():
     return {
         "status": "healthy",
-        "cuda_available": torch.cuda.is_available(),
-        "device": "cuda" if torch.cuda.is_available() else "cpu"
+        "cuda_available": HAS_TORCH and torch.cuda.is_available(),
+        "device": "cuda" if (HAS_TORCH and torch.cuda.is_available()) else "cpu"
     }
 
 
@@ -114,7 +119,7 @@ async def run_reconstruction(job_id: str):
         files = job["files"]
         job_dir = job.get("job_dir", str(UPLOAD_DIR / job_id))
 
-        device = "cuda" if torch.cuda.is_available() else "cpu"
+        device = "cuda" if (HAS_TORCH and torch.cuda.is_available()) else "cpu"
         jobs[job_id]["message"] = f"Using device: {device}"
         print(f"Starting reconstruction for job {job_id}")
 
